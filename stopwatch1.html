@@ -1,0 +1,107 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #display {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 1em;
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Stopwatch</title>
+</head>
+<body>
+
+<div id="display">00 00</div>
+<button onclick="startStopwatch()">Start</button>
+<button onclick="pauseStopwatch()">Pause</button>
+<button onclick="resetStopwatch()">Reset</button>
+
+<script>
+    let timer;
+    let time;
+    let second = 0;
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+
+    function startStopwatch() {
+        if (!timer) {
+            timer = setInterval(updateStopwatch, 1000);
+        } 
+        if(!time){
+          time = setInterval(updateStopwatch, 10);
+        }
+    }
+
+    function pauseStopwatch() {
+        clearInterval(timer);
+        timer = null;
+        clearInterval(time);
+        time = null;
+    }
+
+    function resetStopwatch() {
+        clearInterval(timer);
+        clearInterval(time);
+        timer = null;
+        time = null;
+        seconds = 0;
+        second = 0;
+        minutes = 0;
+        hours = 0;
+        updateDisplay();
+
+    }
+
+
+    function updateStopwatch() {
+
+      second++;
+      if(second === 100){
+        second = 0;
+        seconds++
+      }
+
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+        }
+
+        if(minutes === 60){
+          minutes = 0;
+          hours++;
+        }
+
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        const formattedTime = `${padZero(minutes)}h ${padZero(seconds)}s ${padZero(second)}`;
+        document.getElementById('display').innerText = formattedTime;
+    }
+
+    function padZero(value) {
+        return value < 10 ? `0${value}` : value;
+    }
+</script>
+
+</body>
+</html>
+
